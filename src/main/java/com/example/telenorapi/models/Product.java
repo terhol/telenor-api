@@ -1,4 +1,6 @@
 package com.example.telenorapi.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +12,7 @@ import javax.persistence.*;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @Column(name = "product_type")
@@ -17,9 +20,10 @@ public class Product {
     @Column(name = "price")
     private double price;
     @Column(name = "store_address")
-    private String city;
+    @JsonProperty("store_address")
+     private String city;
     @Column(name = "product_properties")
-    private String property;
+    private String properties;
 
 
 
