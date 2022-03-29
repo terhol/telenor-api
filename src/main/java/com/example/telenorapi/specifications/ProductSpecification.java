@@ -10,6 +10,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @Component
 public class ProductSpecification {
@@ -17,18 +20,33 @@ public class ProductSpecification {
     private static EntityManager em;
 
     public static Specification<Product> isCorrectType(String type){
-        return new Specification<Product>() {
-            @Override
-            public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-                if(type == null) return null;
-                return criteriaBuilder.equal(root.get("type"), type);
-            }
-        };
+        return (root, query, cb) -> type != null?
+                cb.equal(root.get("type"), type)
+                : cb.conjunction();
     }
 
     public static Specification<Product> isCorrectAddress(String city){
         return (root, query, cb) -> city !=null ?
-                cb.like(root.get("city").as(String.class), "%" + city + "%")
+                cb.like(root.get("city").as(String.class), "%" + city)
+                : cb.conjunction();
+    }
+
+    public static Specification<Product> isCorrectPrice(Double minPrice, Double maxPrice){
+        return (root, query, cb) -> maxPrice != null ?
+                cb.between(root.get("price"), minPrice, maxPrice)
+                : cb.conjunction();
+    }
+
+    public static Specification<Product> isCorrectParamColor(String color){
+        return (root, query, cb) -> color != null ?
+                cb.like(root.get("properties").as(String.class), "%" + color)
+                : cb.conjunction();
+    }
+
+
+    public static Specification<Product> isCorrectProperty(String property) {
+        return (root, query, cb) -> property != null ?
+                cb.like(root.get("properties").as(String.class),  property + "%")
                 : cb.conjunction();
     }
 }

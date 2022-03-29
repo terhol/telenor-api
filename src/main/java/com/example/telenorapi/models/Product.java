@@ -1,5 +1,6 @@
 package com.example.telenorapi.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,12 +22,16 @@ public class Product {
     private double price;
     @Column(name = "store_address")
     @JsonProperty("store_address")
-     private String city;
+    private String city;
     @Column(name = "product_properties")
     private String properties;
 
 
 
-
-
 }
+
+
+
+
+
+
