@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 import static org.springframework.data.jpa.domain.Specification.where;
 
 @RestController
-@RequestMapping("/api")
 public class ProductController {
     @Autowired
     ProductRepository productRepository;
