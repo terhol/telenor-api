@@ -53,11 +53,11 @@ public class ProductController {
         );
 
         if (gbLimitMax != null || gbLimitMin != null) {
-            Double gbLimitMinSafe = gbLimitMin == null ? 0.0 : gbLimitMin;
-            List<Product> updatedList = productListFromDb.stream()
+            double gbLimitMinSafe = gbLimitMin == null ? 0.0 : gbLimitMin;
+            return productListFromDb.stream()
                     .filter(product -> product.getType().equals("subscription"))
                     .filter(product -> {
-                        Double gbLimit = Double.valueOf(product.getProperties().substring(product.getProperties().indexOf(":") + 1));
+                        double gbLimit = Double.parseDouble(product.getProperties().substring(product.getProperties().indexOf(":") + 1));
                         if (gbLimitMax == null) {
                             return gbLimit >= gbLimitMinSafe;
                         }
@@ -65,11 +65,8 @@ public class ProductController {
 
                     })
                     .collect(Collectors.toList());
-            return updatedList;
 
         }
-
         return productListFromDb;
-
     }
 }
